@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "Whyte Inktrap Light";
+  src: url(./fonts/light.ttf);
+  font-weight: lighter;
+}
+@font-face {
+  font-family: "Regular";
+  src: url(./fonts/Regular.ttf);
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Light Bold";
+  src: url(./fonts/light-Bold.ttf);
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Bold";
+  src: url(./fonts/bold.ttf);
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Extra Bold";
+  src: url(./fonts/extra-bold.ttf);
+  font-weight: bolder;
+}
+
+* {
+  margin: 0;
+  font-family: "Whyte Inktrap Light";
+  /* max-width: 100%; */
+}
+@media screen and (max-width: 544px) {
+  .MuiDialog-paperScrollPaper {
+    width: 100%;
+  }
+}
