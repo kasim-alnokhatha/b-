@@ -30,21 +30,23 @@ import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom'
 const PrivateRoutes = () => {
 
-  const isAuthenticated = useSelector((state) => state.auth.access_token);
-  console.log(isAuthenticated)
   // const isAuthenticated = useSelector((state) => state.auth.access_token);
-  const isVerified = useSelector((state) => state.user.email_verified);
-  // const isVerified = true;
+  // console.log(isAuthenticated)
+  const isAuthenticated = localStorage.getItem('access_token');
+  // const isVerified = useSelector((state) => state.user.email_verified);
+  const isVerified = localStorage.getItem('email_verified');
   // let auth = {'token':false}
+
+  const token = localStorage.getItem('access_token');
 return (
-  isAuthenticated ? <Outlet/> : <Navigate to='/login'/>
-  // isAuthenticated && isVerified ? 
-  //   <Outlet/>
-  //  :
-  //  isAuthenticated ? 
-  //  <Navigate to="/verify-email" />
-  //  :
-  //   <Navigate to='/login'/>
+  // token ? <Outlet/> : <Navigate to='/login'/>
+  isAuthenticated && isVerified == 'true' ? 
+    <Outlet/>
+   :
+   isVerified == 'false' ? 
+   <Navigate to="/verify-email" />
+   :
+    <Navigate to='/login'/>
 
   // isAuthenticated ? (
   //   isVerified == true ? (

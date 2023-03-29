@@ -28,8 +28,10 @@ const Dashboard = () => {
   const { access_token } = getToken()
   // let { email_verified } = getEmailVerify()
 
-  const { data, isSuccess } = useGetLoggedUserQuery(access_token)
 
+  
+
+  const { data, error, isSuccess } = useGetLoggedUserQuery(access_token)
 
   const [userData, setUserData] = useState({
     email: "",
@@ -47,16 +49,12 @@ const Dashboard = () => {
         // email_verified: data.email_verified.toString(),
         email_verified: data.email_verified.toString(),
       })
-      // storeToken(data.token)
-      // let { access_token } = getToken()
-      // dispatch(setUserToken({ access_token: access_token }))
-      // console.log(data.email_verified.toString())
-      // if(data.email_verified.toString() == 'false'){
-      //   console.log('go to verify email')
-      //   navigate('/verify-email')
-      // }
     }
-  }, [data, isSuccess])
+    if(error){
+      alert('some thing went wrong');
+      handleLogout()
+    }
+  }, [data, error, isSuccess])
 
 
 
@@ -71,14 +69,14 @@ const Dashboard = () => {
     }
   }, [data, isSuccess, dispatch])
 
-  useEffect(() => {
-    if(userData.email_verified == 'false'){
-          navigate('/verify-email')
-    }
-    if(auth == null){
-          // navigate('/login')
-    }
-  })
+  // useEffect(() => {
+  //   if(userData.email_verified == 'false'){
+  //         navigate('/verify-email')
+  //   }
+  //   if(auth == null){
+  //         // navigate('/login')
+  //   }
+  // })
 
 
   return <>

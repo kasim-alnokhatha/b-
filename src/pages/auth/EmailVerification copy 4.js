@@ -28,24 +28,31 @@ const EmailVerification = () => {
   const auth = useSelector(state => state.auth.access_token)
   const user = useSelector(state => state)
 
-  const isVerified = localStorage.getItem('email_verified');
+  // let { access_token } = getToken()
+  // useEffect(() => {
+  //   dispatch(setUserToken({ access_token: access_token }))
+  // }, [access_token, dispatch])
+
+  // if (isLogin) {
+  //   history.push('/home');
+  // }
   
   const { access_token } = getToken()
+  // let { email_verified } = getEmailVerify()
 
+  const { data, isSuccess } = useGetLoggedUserQuery(access_token)
   const [server_error, setServerError] = useState({})
   const [message, setMessage] = useState()
-  // const [error, setError] = useState()
+  const [error, setError] = useState()
   const [verify, setVerify] = useState({})
 
-
-  const { data, error, isSuccess } = useGetLoggedUserQuery(access_token)
 
   const [userData, setUserData] = useState({
     email: "",
     name: "",
     email_verified: ""
   })
-  // Store User Data in Local State
+
   useEffect(() => {
     console.log(auth);
     if (data && isSuccess) {
@@ -56,14 +63,17 @@ const EmailVerification = () => {
         // email_verified: data.email_verified.toString(),
         email_verified: data.email_verified.toString(),
       })
+      // storeToken(data.token)
+      let { access_token } = getToken()
+      dispatch(setUserToken({ access_token: access_token }))
+      // console.log(data.email_verified.toString())
+      // if(data.email_verified.toString() == 'false'){
+      //   console.log('go to verify email')
+      //   navigate('/verify-email')
+      // }
+    }
+  }, [data, isSuccess])
 
-   
-    }
-    if(error){
-      alert('some thing went wrong');
-      handleLogout()
-    }
-  }, [data, error, isSuccess])
 
 
   // Store User Data in Redux Store
@@ -74,18 +84,18 @@ const EmailVerification = () => {
         name: data.name,
         email_verified: data.email_verified.toString()
       }))
+      console.log(data.token.access)
+      dispatch(setUserToken({ access_token: data.token.access }))
     }
   }, [data, isSuccess, dispatch])
 
   useEffect(() => {
-    if(!isVerified){
-      navigate('/login')
+    // getUser()
+    if(!auth) {
+      navigate("/login");
     }
-    // if(isVerified == true){
-    //   navigate('/dashboard')
-    // }
+    console.log(auth)
   }, [])
-
 
 
 const theme = createTheme();
@@ -107,7 +117,7 @@ const handleSubmit = async (e) => {
     setServerError(res.error.data.errors)
   }
   if (res.data.email_verified == false) {
-    // setError(res.data.msg)
+    setError(res.data.msg)
     console.log(res.data)
     // storeEmailVerify(res.data.email_verified.toString())
     // window.location.reload();
@@ -117,7 +127,7 @@ const handleSubmit = async (e) => {
     // console.log(email_verified)
     // dispatch(setUserToken({ access_token: access_token }))
     // dispatch(setUserInfo({ email_verified: email_verified }))
-    // navigate('/dashboard')
+    navigate('/dashboard')
   }
 }
 
@@ -129,7 +139,7 @@ const resendVerify = async (e) => {
   }
   if (res.data) {
     console.log(res.data)
-    // setError('')
+    setError('')
     setMessage(res.data.msg)
   } 
 }
