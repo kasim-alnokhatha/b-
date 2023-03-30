@@ -2,7 +2,7 @@ import { Button, CssBaseline, Grid, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { unSetUserToken , setUserToken } from '../redux/authSlice';
-import { getToken,storeToken,  removeToken, getEmailVerify, removeEmailVerify } from '../api/LocalStorageService';
+import { getToken,storeToken,  removeToken, getEmailVerify, removeEmailVerify, storeEmailVerify } from '../api/LocalStorageService';
 import ChangePassword from './auth/ChangePassword';
 import { useGetLoggedUserQuery } from '../api/userAuthApi';
 import { useEffect, useState } from 'react';
@@ -12,7 +12,9 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
 
-  const auth = useSelector((state) => state.auth.access_token);
+    const d = 'true'
+  const isVerified = localStorage.getItem('email_verified');
+
   // const token = useSelector(state => state.auth.access_token);
   // console.warn(access_token)
   
@@ -40,15 +42,17 @@ const Dashboard = () => {
   })
   // Store User Data in Local State
   useEffect(() => {
-    console.log(auth);
+  
     if (data && isSuccess) {
       console.log(data)
       setUserData({
         email: data.email,
         name: data.name,
         // email_verified: data.email_verified.toString(),
-        email_verified: data.email_verified.toString(),
+        email_verified: d,
       })
+      storeEmailVerify(d)
+
     }
     if(error){
       alert('some thing went wrong');
@@ -64,7 +68,8 @@ const Dashboard = () => {
       dispatch(setUserInfo({
         email: data.email,
         name: data.name,
-        email_verified: data.email_verified.toString()
+        // email_verified: data.email_verified.toString()
+        email_verified: d,
       }))
     }
   }, [data, isSuccess, dispatch])
@@ -77,6 +82,15 @@ const Dashboard = () => {
   //         // navigate('/login')
   //   }
   // })
+
+  // useEffect(() => {
+  //   if(!isVerified){
+  //     navigate('/login')
+  //   }
+  //   if(isVerified == 'false'){
+  //     navigate('/verify-email')
+  //   }
+  // }, [isVerified])
 
 
   return <>

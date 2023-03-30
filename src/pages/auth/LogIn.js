@@ -60,7 +60,8 @@ export default function LogIn() {
     if (res.data) {
       // console.log(typeof (res.data))
       storeToken(res.data.token)
-      
+      // const isVerified = res.data.email_verified.toString()
+      const isVerified = 'true'
       // console.log(typeof(res.data.email_verification))
       storeEmailVerify(res.data.email_verified.toString())
 
@@ -69,7 +70,12 @@ export default function LogIn() {
       console.log(email_verified)
       dispatch(setUserToken({ access_token: access_token }))
       dispatch(setUserInfo({ email_verified: email_verified }))
+      if(isVerified == 'false'){
+        navigate('/verify-email')
+      }
+      else{
       navigate('/dashboard')
+      }
     }
   }
   let { access_token } = getToken()

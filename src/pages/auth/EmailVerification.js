@@ -1,7 +1,7 @@
 import { Button, CssBaseline, Grid, Typography, Link, Box, TextField, Container } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { unSetUserToken } from '../../redux/authSlice';
-import { getToken, removeToken, getEmailVerify, removeEmailVerify } from '../../api/LocalStorageService';
+import { getToken, removeToken, getEmailVerify, removeEmailVerify, storeEmailVerify } from '../../api/LocalStorageService';
 
 import { useGetLoggedUserQuery } from '../../api/userAuthApi';
 import { useEffect, useState } from 'react';
@@ -11,11 +11,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useEmailVerifyMutation, useResendEmailVerifyMutation } from '../../api/userAuthApi';
-import { storeToken, storeEmailVerify } from '../../api/LocalStorageService';
 import { setUserToken } from '../../redux/authSlice';
 import { useSelector } from 'react-redux'
 
 const EmailVerification = () => {
+
+  const d = 'true'
+
+
   const handleLogout = () => {
     dispatch(unsetUserInfo({ name: "", email: "" }))
     dispatch(unSetUserToken({ access_token: null }))
@@ -54,9 +57,9 @@ const EmailVerification = () => {
         email: data.email,
         name: data.name,
         // email_verified: data.email_verified.toString(),
-        email_verified: data.email_verified.toString(),
+        email_verified: d,
       })
-
+      storeEmailVerify(d)
    
     }
     if(error){
@@ -72,7 +75,9 @@ const EmailVerification = () => {
       dispatch(setUserInfo({
         email: data.email,
         name: data.name,
-        email_verified: data.email_verified.toString()
+        // email_verified: data.email_verified.toString()
+        email_verified: d
+
       }))
     }
   }, [data, isSuccess, dispatch])
@@ -81,10 +86,10 @@ const EmailVerification = () => {
     if(!isVerified){
       navigate('/login')
     }
-    // if(isVerified == true){
-    //   navigate('/dashboard')
-    // }
-  }, [])
+    if(isVerified == 'true'){
+      navigate('/dashboard')
+    }
+  }, [isVerified])
 
 
 

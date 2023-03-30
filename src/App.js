@@ -13,7 +13,7 @@ import EmailVerification from "./pages/auth/EmailVerification";
 
 
 import Profile from './pages/Profile';
-
+import MainHome from './pages/MainHome';
 
 
 function App() {
@@ -31,15 +31,15 @@ function App() {
           <Route element={<PrivateRoutes/>}>
               <Route path='/profile' element={<Profile/>} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/home" element={<Dashboard />} />
+              <Route path="" element={<MainHome />} />
+              <Route path="verify-email" element={<EmailVerification />} />
 
 
               {/* <Route path='/products' element={<Products/>} /> */}
           </Route>
-          <Route path="verify-email" element={<EmailVerification />} />
 
 
-          <Route path='' element={<LogIn/>}/>
+          {/* <Route path='' element={<LogIn/>}/> */}
           <Route path='/login' element={<LogIn/>}/>
           <Route path='/signup' element={<SignUp/>}/>
         </Routes>

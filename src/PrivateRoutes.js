@@ -39,14 +39,14 @@ const PrivateRoutes = () => {
 
   const token = localStorage.getItem('access_token');
 return (
-  // token ? <Outlet/> : <Navigate to='/login'/>
-  isAuthenticated && isVerified == 'true' ? 
-    <Outlet/>
-   :
-   isVerified == 'false' ? 
-   <Navigate to="/verify-email" />
-   :
-    <Navigate to='/login'/>
+  isAuthenticated ? <Outlet/> : <Navigate to='/login'/>
+  // isAuthenticated && isVerified == 'true' ? 
+  //   <Outlet/>
+  //  :
+  //  isVerified == 'false' ? 
+  //  <Navigate to="/verify-email" />
+  //  :
+  //   <Navigate to='/login'/>
 
   // isAuthenticated ? (
   //   isVerified == true ? (
